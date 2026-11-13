@@ -4,22 +4,28 @@ import CurrentWeather from "./components/cards/CurrentWeather"
 import HourlyForecast from "./components/cards/HourlyForecast"
 import DailyForecast from "./components/cards/DailyForecast"
 import AdditionalInfo from "./components/cards/AdditionalInfo"
+import Map from "./components/Map"
+import { useState } from "react"
+import type { Coords } from "./types"
 
 
 function App() {
+  const [coordinates, setCoords] = useState<Coords>({ lat: 50, lon: 45 })
+  const [mapType, setMapType] = useState("clouds_new")
 
-  const {data} = useQuery({
-    queryKey: ['weather'],
-    queryFn: () => getWeather({ lat: 50, lon: 50 }),
-  })
+  const onMapClick = (lat: number, lon: number) => {
+    setCoords({ lat, lon })
+    // setLocation("custom")
+  }
 
   return (
     <>
       <div className="flex flex-col gap-8">
-        <CurrentWeather coords={{ lat: 50, lon: 50 }} />
-        <HourlyForecast coords={{ lat: 50, lon: 50 }} />
-        <DailyForecast coords={{ lat: 50, lon: 50 }} />
-        <AdditionalInfo coords={{ lat: 50, lon: 50 }} />
+        <Map coords={coordinates} onMapClick={onMapClick} mapType={mapType}/>
+        <CurrentWeather coords={coordinates} />
+        <HourlyForecast coords={coordinates} />
+        <DailyForecast coords={coordinates} />
+        <AdditionalInfo coords={coordinates} />
       </div>    
     </>
   )
