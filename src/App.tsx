@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { Suspense, useState } from "react"
 import { useQuery } from "@tanstack/react-query"
 import { getGeocode, getWeather } from "./api"
 import type { Coords } from "./types"
@@ -10,6 +10,10 @@ import MapLegend from "./components/MapLegend"
 import Map from "./components/Map"
 import LocationDropdown from "./components/dropdowns/LocationDropdown"
 import MapTypeDropdown from "./components/dropdowns/MapTypeDropdown"
+import CurrentSkeleton from "./components/skeletons/CurrentSkeleton"
+import DailySkeleton from "./components/skeletons/DailySkeleton"
+import HourlySkeleton from "./components/skeletons/HourlySkeleton"
+import AdditionalInfoSkeleton from "./components/skeletons/AdditionalInfoSkeleton"
 
 
 function App() {
@@ -54,28 +58,27 @@ function App() {
             <MapLegend mapType={mapType} />
           </div>
           <div className="col-span-1 2xl:row-span-2 order-2">
+            <Suspense fallback={<CurrentSkeleton />}>
               <CurrentWeather coords={coords} />
+            </Suspense>
           </div>
           <div className="col-span-1 order-3 2xl:order-4 2xl:row-span-2">
+            <Suspense fallback={<DailySkeleton />}>
               <DailyForecast coords={coords} />
+            </Suspense>
           </div>
           <div className="col-span-1 md:col-span-2 2xl:row-span-1 order-4 2xl:order-3">
+            <Suspense fallback={<HourlySkeleton />}>
               <HourlyForecast coords={coords} />
+            </Suspense>
           </div>
           <div className="col-span-1 md:col-span-2 2xl:row-span-1 order-5">
+            <Suspense fallback={<AdditionalInfoSkeleton />}>
               <AdditionalInfo coords={coords} />
+            </Suspense>
           </div>
         </div>
       </div>
-      {/* <div className="flex flex-col gap-8">
-        <LocationDropdown location={location} setLocation={setLocation} />
-        <MapTypeDropdown mapType={mapType} setMapType={setMapType} />
-        <Map coords={coords} onMapClick={onMapClick} mapType={mapType}/>
-        <CurrentWeather coords={coords} />
-        <HourlyForecast coords={coords} />
-        <DailyForecast coords={coords} />
-        <AdditionalInfo coords={coords} />
-      </div>     */}
     </>
   )
 }
