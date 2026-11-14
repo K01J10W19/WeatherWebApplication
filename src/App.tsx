@@ -8,18 +8,21 @@ import DailyForecast from "./components/cards/DailyForecast"
 import AdditionalInfo from "./components/cards/AdditionalInfo"
 import MapLegend from "./components/MapLegend"
 import Map from "./components/Map"
+import SidePanel from "./components/SidePanel"
 import LocationDropdown from "./components/dropdowns/LocationDropdown"
 import MapTypeDropdown from "./components/dropdowns/MapTypeDropdown"
 import CurrentSkeleton from "./components/skeletons/CurrentSkeleton"
 import DailySkeleton from "./components/skeletons/DailySkeleton"
 import HourlySkeleton from "./components/skeletons/HourlySkeleton"
 import AdditionalInfoSkeleton from "./components/skeletons/AdditionalInfoSkeleton"
+import { Hamburger } from "lucide-react"
 
 
 function App() {
   const [coordinates, setCoords] = useState<Coords>({ lat: 50, lon: 45 })
   const [location, setLocation] = useState("Tokyo")
   const [mapType, setMapType] = useState("clouds_new")
+  const [isSidePanelOpen, setIsSidePanelOpen] = useState(false)
 
   const { data: geocodeData } = useQuery({
     queryKey: ["geocode", location],
@@ -50,6 +53,12 @@ function App() {
             </h1>
             <MapTypeDropdown mapType={mapType} setMapType={setMapType} />
           </div>
+          <button
+              onClick={() => setIsSidePanelOpen(true)}
+              className="hidden xs:block"
+            >
+              <Hamburger className="size-6 lg:hidden" />
+            </button>
         </div>
 
         <div className="grid grid-cols-1 2xl:flex-1 2xl:min-h-0 md:grid-cols-2 2xl:grid-cols-4 2xl:grid-rows-4 gap-4">
@@ -79,6 +88,11 @@ function App() {
           </div>
         </div>
       </div>
+      <SidePanel
+        coords={coords}
+        isSidePanelOpen={isSidePanelOpen}
+        setIsSidePanelOpen={setIsSidePanelOpen}
+      />
     </>
   )
 }
