@@ -13,6 +13,7 @@ import MapLegend from "./components/MapLegend"
 import Map from "./components/Map"
 import SidePanel from "./components/SidePanel"
 import MobileHeader from "./components/MobileHeader"
+import LightDarkToggle from "./components/LightDarkToggle"
 // components/dropdowns
 import LocationDropdown from "./components/dropdowns/LocationDropdown"
 import MapTypeDropdown from "./components/dropdowns/MapTypeDropdown"
@@ -61,7 +62,7 @@ function App() {
           </div>
           <div className="ml-auto flex gap-4 items-center">
             <div className="hidden xs:block">
-              {/* <LightDarkToggle /> */}
+              <LightDarkToggle />
             </div>
             <button
               onClick={() => setIsSidePanelOpen(true)}
