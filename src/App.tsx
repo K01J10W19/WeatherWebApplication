@@ -1,6 +1,6 @@
 import { Suspense, useState } from "react"
 import { useQuery } from "@tanstack/react-query"
-import { getGeocode, getWeather } from "./api"
+import { getGeocode } from "./api"
 import type { Coords } from "./types"
 import Hamburger from "/src/assets/hamburger.svg?react"
 // components/cards
