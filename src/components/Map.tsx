@@ -1,3 +1,7 @@
+import L from "leaflet";
+import markerIcon2x from 'leaflet/dist/images/marker-icon-2x.png';
+import markerIcon from 'leaflet/dist/images/marker-icon.png';
+import markerShadow from 'leaflet/dist/images/marker-shadow.png';
 import { MapContainer, Marker, TileLayer, useMap } from "react-leaflet"
 import "leaflet/dist/leaflet.css"
 import type { Coords } from "../types"
@@ -12,6 +16,17 @@ type Props = {
     onMapClick: (lat: number, lon: number) => void
     mapType: string
 }
+
+// Fix Leaflet marker missing on Vercel deployment
+const defaultIconPrototype = L.Icon.Default.prototype as L.Icon.Default & {
+    _getIconUrl?: () => string;
+};
+delete defaultIconPrototype._getIconUrl;
+L.Icon.Default.mergeOptions({
+    iconUrl: markerIcon,
+    iconRetinaUrl: markerIcon2x,
+    shadowUrl: markerShadow
+});
 
 export default function Map({ coords, onMapClick, mapType}: Props) {
     const { lat, lon } = coords
