@@ -2,20 +2,25 @@ import { Suspense, useState } from "react"
 import { useQuery } from "@tanstack/react-query"
 import { getGeocode, getWeather } from "./api"
 import type { Coords } from "./types"
+import Hamburger from "/src/assets/hamburger.svg?react"
+// components/cards
 import CurrentWeather from "./components/cards/CurrentWeather"
 import HourlyForecast from "./components/cards/HourlyForecast"
 import DailyForecast from "./components/cards/DailyForecast"
 import AdditionalInfo from "./components/cards/AdditionalInfo"
+// components/sections
 import MapLegend from "./components/MapLegend"
 import Map from "./components/Map"
 import SidePanel from "./components/SidePanel"
+import MobileHeader from "./components/MobileHeader"
+// components/dropdowns
 import LocationDropdown from "./components/dropdowns/LocationDropdown"
 import MapTypeDropdown from "./components/dropdowns/MapTypeDropdown"
+// components/skeletons
 import CurrentSkeleton from "./components/skeletons/CurrentSkeleton"
 import DailySkeleton from "./components/skeletons/DailySkeleton"
 import HourlySkeleton from "./components/skeletons/HourlySkeleton"
 import AdditionalInfoSkeleton from "./components/skeletons/AdditionalInfoSkeleton"
-import { Hamburger } from "lucide-react"
 
 
 function App() {
@@ -41,6 +46,7 @@ function App() {
 
   return (
     <>
+      <MobileHeader setIsSidePanelOpen={setIsSidePanelOpen} />
       <div className="flex flex-col gap-8 pt-4 p-8 xs:pt-8 lg:w-[calc(100dvw-var(--sidebar-width))] 2xl:h-screen 2xl:min-h-[1120px]">
         <div className="flex flex-col gap-4 xs:flex-row xs:gap-8">
           <div className="flex flex-col md:flex-row gap-2 md:gap-4">
@@ -53,14 +59,18 @@ function App() {
             </h1>
             <MapTypeDropdown mapType={mapType} setMapType={setMapType} />
           </div>
-          <button
+          <div className="ml-auto flex gap-4 items-center">
+            <div className="hidden xs:block">
+              {/* <LightDarkToggle /> */}
+            </div>
+            <button
               onClick={() => setIsSidePanelOpen(true)}
               className="hidden xs:block"
             >
               <Hamburger className="size-6 lg:hidden" />
             </button>
+          </div>
         </div>
-
         <div className="grid grid-cols-1 2xl:flex-1 2xl:min-h-0 md:grid-cols-2 2xl:grid-cols-4 2xl:grid-rows-4 gap-4">
           <div className="relative h-120 2xl:h-auto col-span-1 md:col-span-2 2xl:col-span-4 2xl:row-span-2 order-1">
             <Map coords={coords} onMapClick={onMapClick} mapType={mapType} />
